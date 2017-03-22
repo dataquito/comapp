@@ -1,0 +1,16 @@
+#exploracion__module {
+  display: flex;
+  flex-flow: row wrap;
+  height: calc(100vh - 72px);
+  .map {
+    flex: 1 1 0%;
+  }
+  .map .leaflet-container {
+    height: 100%;
+  }
+  .location-type__container {
+    padding: 15px;
+  }
+}
+
+

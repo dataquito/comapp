@@ -1,0 +1,52 @@
+@import './exploracion.scss';
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
+#comapp__container {}
+#navigation {
+  height: 72px;
+  width: 100%;
+  background: #f3f3f3;
+  border-bottom: 1px solid #D5D5D5;
+}
+#navigation .logo {
+  height: 40px;
+  padding: 16px 15px;
+}
+
+.sidebar {
+  width: 450px;
+  background: #f7f7f7;
+  height: 100%;
+  border-right: 1px solid #ebebeb;
+}
+
+// inputs
+.radio {
+  transition: all 0.3s ease;
+  label {
+    cursor: pointer;
+  }
+  font-size: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  background: #dfdfdf;
+  text-align: center;
+}
+.radio--active {
+  background: #E63946;
+  border: 1px solid #E63946 !important;
+  color: #fff;
+  border: none;
+}
+.radio__name {
+  padding: 5px;
+}
+.radio__input {
+  display: none;
+}
+
