@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { scaleQuantile } from 'd3-scale';
 import { geoJSON } from 'leaflet';
 import leafletPip from 'leaflet-pip';
@@ -7,11 +7,12 @@ import fromPairs from 'lodash.frompairs';
 import axios from 'axios';
 import { feature as tfeature } from 'topojson-client';
 import geojsonvt from 'geojson-vt';
-import CanvasLayer from 'common-scripts/leaflet/gvt';
+import qs from 'qs';
+import CanvasLayer from 'app-scripts/leaflet/CanvasLayer';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as exploracionActions from 'common-redux/actions/exploracionActions';
+import * as actions from '../actions';
 
 const options = {
   maxZoom: 14,  // max zoom to preserve detail on
@@ -82,11 +83,11 @@ class LayerContainer extends React.Component {
 
   componentDidMount() {
     const addLayer = this.addLayer;
-    // this.memoizeTileIndex(this.props.locationType)
-    //   .then(addLayer)
-    //   .catch(err => {
-    //     console.error('Error loading tiles', err);
-    //   });
+    this.memoizeTileIndex(this.props.locationType)
+      .then(addLayer)
+      .catch(err => {
+        console.error('Error loading tiles', err);
+      });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -94,20 +95,11 @@ class LayerContainer extends React.Component {
     const layer = nextProps.selectedLayer !== this.props.selectedLayer;
     const locationType = nextProps.locationType !== this.props.locationType;
     const requesting = nextProps.layerVectorRequest !== this.props.layerVectorRequest;
-    // console.log('layer should update?');
-    // console.log('next', 'current');
-    // console.log(nextProps.selectedLayer, this.props.selectedLayer);
-    // console.log(nextProps.locationType, this.props.locationType);
-    // console.log(nextProps.layerVectorRequest, this.props.layerVectorRequest);
-    // console.log(nextProps.layerVector.length, this.props.layerVector.length);
-    // console.log(layer || locationType || requesting);
     return (layer || locationType || requesting);
-    // return (layer || locationType);
   }
 
   componentDidUpdate() {
-    // console.log('layer didupdate');
-    if(this.props.layerVector.length === 0) return;
+    // if(this.props.layerVector.length === 0) return;
     if(this.__layer !== null) {
       const map = this.props.map;
       map.removeLayer(this.__layer);
@@ -122,7 +114,6 @@ class LayerContainer extends React.Component {
   }
 
   addLayer({ tileIndex, geojson }) {
-    // console.info('adding layer');
     const { colors, layerVector, map, locationType } = this.props;
     const dict = fromPairs(layerVector);
     const colorScale = scaleQuantile().domain(layerVector.map(v => v[1])).range(colors);
@@ -131,12 +122,9 @@ class LayerContainer extends React.Component {
     this.__interaction = geoJSON(geojson);
     this.__layer = layer;
     map.addLayer(layer);
-    // map.addLayer(this.__interaction);
   }
 
   render() {
-    // console.info('rendering Layer');
-    // console.info('rendering Layer', this.props);
     return null;
   }
 
@@ -147,14 +135,15 @@ LayerContainer.defaultProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { locationType, layerId } = ownProps.location.query;
+  const query = qs.parse(ownProps.location.search.substr(1));
+  const { layerId, locationType } = query;
   const { layerVector, layerVectorRequest, layerVectorFailure } = state.exploracion;
   return { selectedLayer: layerId, locationType: +locationType, layerVector, layerVectorRequest, layerVectorFailure };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(exploracionActions, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   };
 };
 

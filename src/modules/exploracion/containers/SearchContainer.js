@@ -1,12 +1,12 @@
 import React from 'react';
-import SearchSuggestions from 'common-scripts/navigation/SearchBar';
+import AutoComplete from 'app-scripts/inputs/AutoComplete';
 import debounce from 'lodash.debounce';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { browserHistory } from 'react-router';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as exploracionActions from 'common-redux/actions/exploracionActions';
+import * as actions from '../actions';
 
 class SearchContainer extends React.Component {
   constructor(props, context) {
@@ -40,7 +40,7 @@ class SearchContainer extends React.Component {
     const latlng = [+latitud, +longitud];
     this.props.actions.setSearchValue(nombre);
     this.props.actions.suggestionSuccess([]);
-    this.props.actions.fetchLocation(+this.props.location.query.locationType, suggestion.id, [+longitud, +latitud]);
+    // this.props.actions.fetchLocation(+this.props.location.query.locationType, suggestion.id, [+longitud, +latitud]);
     this.setState({ suggestionIndex: 0 });
   }
 
@@ -96,8 +96,8 @@ class SearchContainer extends React.Component {
   render() {
     const suggestions = this.props.suggestions;
     return (
-      <div className="explore-sidebar__search">
-        <SearchSuggestions suggestions={suggestions} 
+      <div className="search__container">
+        <AutoComplete suggestions={suggestions} 
           renderSuggestion={this.renderSuggestion} 
           value={this.props.searchValue}
           index={1}
@@ -118,7 +118,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(exploracionActions, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   };
 };
 

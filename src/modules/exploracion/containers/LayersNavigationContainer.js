@@ -4,7 +4,7 @@ import { ascending } from 'd3-array';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as exploracionActions from 'common-redux/actions/exploracionActions';
+import * as exploracionActions from '../actions';
 
 class LayersNavigationContainer extends React.Component {
 
@@ -39,12 +39,11 @@ class LayersNavigationContainer extends React.Component {
       return (
         <div className={`layer__tab ${activeClass}`} key={i} data-tab={i} onClick={onClick}>
           <h5>{v.key}</h5>
-          <p>I've built a JSON object that has the name of the fruit, an array that shows the months that the fruit is in season and a boolean set to false.</p>
         </div>
       );
     });
     return (
-      <div style={{ padding: '15px' }}>
+      <div className="layers-navigation__container">
         {navigation}
       </div>
     );

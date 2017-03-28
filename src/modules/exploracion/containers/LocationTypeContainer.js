@@ -19,6 +19,7 @@ class LocationTypeContainer extends React.Component {
     const history = this.props.history;
     const query = qs.parse(this.props.location.search.substr(1));
     const mergeQuery = { ...query, locationType: value };
+    actions.fetchLayers(value);
     history.push({ 
       pathname: '/exploracion',
       search: `?${qs.stringify(mergeQuery)}`
@@ -30,7 +31,6 @@ class LocationTypeContainer extends React.Component {
   }
 
   render() {
-    console.log('render');
     const selected = this.props.locationType;
     const radios = [
       { title: 'Estatal', value: 1 },
