@@ -11,7 +11,7 @@ module.exports = function(env) {
       path: path.join(root, 'build'),
       publicPath: '/',
       filename: 'bundle.js',
-      sourceMapFilename: '/debugging/[file].map'
+      sourceMapFilename: 'debugging/[file].map'
     },
     devServer: {
       port: 9000,
