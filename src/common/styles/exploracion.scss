@@ -8,9 +8,50 @@
   .map .leaflet-container {
     height: 100%;
   }
-  .location-type__container {
-    padding: 15px;
+  .location-type__container,
+  .layers-navigation__container {
   }
 }
 
+.layer__tab {
+  background: #a9a9a9;
+  color: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+  h5 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 300;
+  }
+}
 
+.search__results {
+  width: 100%;
+}
+.search__result {
+  border-bottom: 1px solid #e3e3e3;
+  padding: 5px;
+  background: #fff;
+  font-size: 12px;
+  display: block;
+  cursor: pointer;
+  &:hover {
+    background: #e9e9e9;
+  }
+}
+.search__result--active {
+  background: #f3f3f3;
+}
+.search__additional {
+  color: #787878;
+}
+.search__highlight {
+  color: #ff4747;
+  margin-right: 5px;
+}
+.search__container {
+}

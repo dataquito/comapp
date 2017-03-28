@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 
 const Radio = ({ title, customClass, groupName, selected, onChange, value }) => {
   const activeClass = selected ? 'radio--active' : '';
-  console.log(activeClass);
   return (
     <div className={`radio ${activeClass} ${customClass}`}>
       <label>
