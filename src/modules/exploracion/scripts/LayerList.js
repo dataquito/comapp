@@ -9,7 +9,6 @@ export default class LayerList extends React.Component {
     const { data, className, selectedLayer, onChange } = this.props;
     return (
       <div className={`explore__tab ${className}`}>
-        <h5>{data.key}</h5>
         {data.values.map((l, i) => <LayerDetail key={i} title={l.key} options={l.values} selectedLayer={selectedLayer} onChange={onChange}/>)}
       </div>
     );

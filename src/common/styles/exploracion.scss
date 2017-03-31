@@ -1,7 +1,13 @@
+$color1: rgba(222, 9, 21, 1);
+$color2: rgba(1, 22, 39, 1);
+$color3: rgba(19, 60, 85, 1);
+$color4: rgba(37, 48, 49, 1);
+$color5: rgba(232, 197, 71, 1);
+$color6: #e63946;
 #exploracion__module {
   display: flex;
   flex-flow: row wrap;
-  height: calc(100vh - 72px);
+  height: calc(100vh - 52px);
   .map {
     flex: 1 1 0%;
   }
@@ -13,11 +19,75 @@
   }
 }
 
-.layer__tab {
-  background: #a9a9a9;
+
+.search__container, .location-type__container, .layers-navigation__container{
+  width: 100%;
+}
+.search__container {
+  z-index: 5;
+}
+.sidebar__search {
+}
+.layers {
   color: #fff;
-  padding: 10px;
-  border-radius: 3px;
+  padding: .5rem 1rem;
+  box-sizing: border-box;
+  background-color: #133c55;
+  overflow-y: scroll;
+  display: flex;
+  right: 0;
+  z-index: 999;
+  position: absolute;
+  flex-direction: column;
+  min-height: calc(100vh - 51px);
+  max-height: calc(100vh - 51px);
+  width: 280px;
+  border-right: 1px solid #011627;
+}
+.explore__tab--active {
+  display: block !important;
+}
+.explore__tab {
+  display: none;
+  h5 {
+    margin: 0;
+    font-size: 12px;
+  }
+  .layer__option {
+    // float: left;
+  }
+  .layer__title {
+    font-weight: 300;
+    margin-bottom: 5px;
+  }
+  .layer__detail {
+    margin: 0 0 5px 0;
+  }
+  .layer__option label {
+    cursor: pointer;
+    font-size: 12px;
+    background: #011627;
+    padding: 2px 4px;
+    margin: 5px;
+  }
+  .layer__option.layer__option--active label{
+    background: $color6;
+  }
+  .layer__option input {
+    display: none;
+  }
+  .layer__options {
+    display: flex;
+  }
+}
+
+.layer__tab.layer__tab--active {
+  background: $color6;
+}
+.layer__tab {
+  background: $color2;
+  color: #fff;
+  padding: 5px;
   margin-bottom: 5px;
   &:hover {
     cursor: pointer;
@@ -30,13 +100,14 @@
 }
 
 .search__results {
+  position: absolute;
   width: 100%;
 }
 .search__result {
   border-bottom: 1px solid #e3e3e3;
   padding: 5px;
   background: #fff;
-  font-size: 12px;
+  font-size: 10px;
   display: block;
   cursor: pointer;
   &:hover {

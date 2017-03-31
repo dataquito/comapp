@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
+import qs from 'qs';
 import { withRouter } from 'react-router';
-import ErrorBlock from 'common-scripts/presentation/ErrorBlock';
+// import ErrorBlock from 'common-scripts/presentation/ErrorBlock';
 
 import { nest } from 'd3-collection';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as exploracionActions from 'common-redux/actions/exploracionActions';
+import * as actions from '../actions';
 
 class LayerInformationContainer extends React.Component {
   constructor(props, context) {
@@ -14,7 +15,6 @@ class LayerInformationContainer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    
     return nextProps.selectedLayer !== this.props.selectedLayer || nextProps.layers.length !== this.props.layers.length;
   }
 
@@ -51,14 +51,15 @@ class LayerInformationContainer extends React.Component {
 // };
 
 const mapStateToProps = (state, ownProps) => {
-  const { layerId } = ownProps.location.query;
+  const query = qs.parse(ownProps.location.search.substr(1));
+  const { layerId } = query;
   const { layers } = state.exploracion;
   return { layers, selectedLayer: layerId };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(exploracionActions, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   };
 };
 

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import qs from 'qs';
 import { nest } from 'd3-collection';
 import { ascending } from 'd3-array';
 import { withRouter, browserHistory } from 'react-router';
@@ -6,7 +7,7 @@ import LayerList  from './../scripts/LayerList';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as exploracionActions from 'common-redux/actions/exploracionActions';
+import * as actions from '../actions';
 
 class LayersTabsContainer extends React.Component {
 
@@ -18,9 +19,13 @@ class LayersTabsContainer extends React.Component {
   onChange(e) {
     const value = e.target.value;
     if(this.props.selectedLayer === value) return;
-    const { query } = this.props.location;
+    const history = this.props.history;
+    const query = qs.parse(this.props.location.search.substr(1));
     const mergeQuery = { ...query, layerId: value };
-    browserHistory.replace({ pathname: '/exploracion', query: mergeQuery });
+    history.replace({ 
+      pathname: '/exploracion', 
+      search: `?${qs.stringify(mergeQuery)}`
+    });
     this.props.actions.fetchLayerVector(value, query.locationType);
   }
 
@@ -47,14 +52,15 @@ class LayersTabsContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { layerId } = ownProps.location.query;
+  const query = qs.parse(ownProps.location.search.substr(1));
+  const { layerId } = query;
   const { layers, activeTab } = state.exploracion;
   return { layers, activeTab, selectedLayer: layerId };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(exploracionActions, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   };
 };
 

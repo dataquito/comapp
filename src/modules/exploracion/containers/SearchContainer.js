@@ -52,17 +52,17 @@ class SearchContainer extends React.Component {
       this.onClick(r);
     };
     return (
-      <span key={r.id} className={`search__result ${selectedClass}`} onClick={onClick}>
+      <div key={r.id} className={`search__result ${selectedClass}`} onClick={onClick}>
         <span className="search__highlight">{nombre}</span>
         <span className="search__additional">{nom_ent}</span>
-      </span>
+      </div>
     );
   }
 
   onBlur(e) {
     if(e.target.value === '') return;
     // console.log('blur');
-    // this.props.actions.suggestionSuccess([]);
+    this.props.actions.suggestionSuccess([]);
   }
 
   onFocus(e) {
