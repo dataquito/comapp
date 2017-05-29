@@ -4,8 +4,10 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import configureStore from 'app-redux/store.js';
 import Exploracion from 'app-modules/exploracion';
+import Landing from 'app-modules/landing';
 
 import normalize from '../node_modules/normalize.css/normalize.css';
+import pure from '../node_modules/bootstrap/scss/bootstrap-grid.scss';
 import appStyles from 'app-styles/general.scss';
 import mapStyles from 'app-styles/leaflet.scss';
 
@@ -16,10 +18,8 @@ render (
   <Provider store={store}>
     <Router>
       <div id="comapp__container">
-        <div id="navigation">
-          <img className="logo" src={comapp_logo}/>
-        </div>
-        <Route exact path="/exploracion" component={Exploracion}/>
+        <Route path="/exploracion" component={Exploracion}/>
+        <Route exact path="/" component={Landing}/>
       </div>
     </Router>
   </Provider>,

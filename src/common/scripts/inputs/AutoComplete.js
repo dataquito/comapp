@@ -1,31 +1,68 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import debounce from 'lodash.debounce';
 
-const getSuggestionValue = suggestion => {
-  return suggestion.fields.nombre;
-};
-
-const renderSuggestion = suggestion => {
-  return (
-    <div>
-      {suggestion.fields.nombre}
-    </div>
-  );
-};
-
-export default class AutoComplete extends React.Component {
+class AutoComplete extends React.Component {
   constructor(props, context) {
     super(props, context);
   }
+
   render() {
-    const suggestions = this.props.suggestions.map(this.props.renderSuggestion);
-    const { onBlur, onChange, onKeyUp, value } = this.props;
+    const props = this.props;
+    const suggestions = props.suggestions.map(props.renderSuggestion);
     return (
-      <div className="autocomplete">
-        <input onFocus={this.props.onFocus} onKeyUp={this.props.onKeyUp} onBlur={this.props.onBlur} onChange={this.props.onChange} value={this.props.value} type="text" placeholder='Busca una ubicacion'/>
-        <div className="search__results">
+      <div className={`autocomplete ${props.className}`}>
+        <input type="text" {...this.props} className="autocomplete__input"/>
+        <div className="autocomplete__suggestions">
           {suggestions}
         </div>
       </div>
     );
   }
 }
+
+/* eslint-disable no-console */
+AutoComplete.defaultProps = {
+  onFocus: e => {
+    console.log('onFocus');
+  },
+  onClick: e => {
+    console.log('onClick');
+  },
+  onKeyUp: e => {
+    console.log('onKeyUp');
+  },
+  onBlur: e => {
+    console.log('onBlur');
+  },
+  onChange: e => {
+    console.log('onChange');
+  },
+  renderSuggestion: (s, i) => {
+    const style = {
+      border: '1px solid #222',
+      padding: '10px'
+    };
+    return <div key={i} style={style}>{s}</div>;
+  },
+  suggestions: [
+    'Remember',
+    'to',
+    'add',
+    'your',
+    'suggestion',
+    'array'
+  ],
+  placeholder: 'Default placeholder for AutoComplete'
+};
+
+AutoComplete.propTypes = {
+  onFocus: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  renderSuggestion: PropTypes.func.isRequired,
+  suggestions: PropTypes.array.isRequired,
+  placeholder:  PropTypes.string.isRequired
+};
+ export default AutoComplete;

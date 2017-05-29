@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import AutoComplete from 'app-scripts/inputs/AutoComplete';
 import debounce from 'lodash.debounce';
 import { withRouter } from 'react-router-dom';
@@ -11,115 +11,101 @@ import * as actions from '../actions';
 class SearchContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.debouncedChange = debounce(this.debouncedChange.bind(this), 300);
-    this.onChange = this.onChange.bind(this);
+    this.debouncedChange = debounce(this.debouncedChange.bind(this), 400);
     this.renderSuggestion = this.renderSuggestion.bind(this);
-    this.onClick = this.onClick.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.state = {
-      suggestionIndex: 0
-    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.state = { value: '' };
+  }
+
+  handleChange(e) {
+    e.persist();
+    this.setState({ value: e.target.value });
+    this.debouncedChange(e);
   }
 
   debouncedChange(e) {
-    e.persist();
-    this.onChange(e);
-  }
-
-  onChange(e) {
-    this.props.actions.setSearchValue(e.target.value);
+    if(e.target.value === '') return;
     this.props.actions.fetchSuggestions(e.target.value);
-    this.setState({ suggestionIndex: 0 });
   }
 
-  onClick(suggestion) {
-    // console.log('click', suggestion);
+  handleClick(suggestion) {
     const { latitud, longitud, nombre } = suggestion.fields;
     const latlng = [+latitud, +longitud];
-    this.props.actions.setSearchValue(nombre);
+    const typeOfLocation = suggestion => {
+      if('cve_mun' in suggestion.fields) {
+        return 'm';
+      }
+      return 'e';
+    };
+    browserHistory.replace({ pathname: '/ubicacion', query: {
+      ag: typeOfLocation(suggestion),
+      id: suggestion.id
+    }});
     this.props.actions.suggestionSuccess([]);
-    // this.props.actions.fetchLocation(+this.props.location.query.locationType, suggestion.id, [+longitud, +latitud]);
-    this.setState({ suggestionIndex: 0 });
   }
 
   renderSuggestion(r, i) {
+    // console.log(r.highlights.nombre.match(/(\*\#\*)(.*)(\*\%\*)/));
+    // console.log(r.highlights.nombre.split(' '));
+    const regex = /\*\#\*(.*)\*\%\*/;
+    const suggestionTags = r.highlights.nombre.split(' ')
+      .map(str => {
+        let className = '';
+        if(regex.test(str)) {
+          var match = regex.exec(str);
+          return (
+            <span className="search__highlight">{match[1]}</span>
+          );
+        }
+        return (
+          <span>{str}</span>
+        );
+      });
+
     const { latitud, longitud, nombre, nom_ent } = r.fields;
     const suggestionIndex = this.state.suggestionIndex;
     const selectedClass = suggestionIndex === i ? 'search__result--active':'';
-    const onClick = () => { 
-      this.onClick(r);
-    };
+    const onClick = () => this.handleClick(r);
     return (
-      <div key={r.id} className={`search__result ${selectedClass}`} onClick={onClick}>
-        <span className="search__highlight">{nombre}</span>
+      <span key={r.id} className={`search__result ${selectedClass}`} onClick={onClick}>
+        {suggestionTags}
         <span className="search__additional">{nom_ent}</span>
-      </div>
+      </span>
     );
   }
 
-  onBlur(e) {
-    if(e.target.value === '') return;
-    // console.log('blur');
-    this.props.actions.suggestionSuccess([]);
-  }
-
-  onFocus(e) {
-    if(e.target.value === '') return;
-    // console.log('focus');
-    this.props.actions.fetchSuggestions(e.target.value);
-  }
-
-  onKeyUp(e) {
-    const suggestionIndex = this.state.suggestionIndex;
-    if(e.key === 'Enter') {
-      const suggestion = this.props.suggestions[suggestionIndex];
-      const { latitud, longitud, nombre } = suggestion.fields;
-      const latlng = [+latitud, +longitud];
-      this.props.actions.setSearchValue(nombre);
-      this.props.actions.suggestionSuccess([]);
-      this.props.actions.fetchLocation(+this.props.location.query.locationType, suggestion.id, [+longitud, +latitud]);
-      this.setState({ suggestionIndex: 0 });
-    }
-    if(e.key === 'ArrowDown') {
-      if(suggestionIndex === this.props.suggestions.length - 1) return;
-      this.setState({ suggestionIndex: suggestionIndex + 1 });
-    }
-    if(e.key === 'ArrowUp') {
-      if(suggestionIndex === 0) return;
-      this.setState({ suggestionIndex: suggestionIndex - 1 });
-    }
-  }
-
-
   render() {
-    const suggestions = this.props.suggestions;
     return (
-      <div className="search__container">
-        <AutoComplete suggestions={suggestions} 
-          renderSuggestion={this.renderSuggestion} 
-          value={this.props.searchValue}
-          index={1}
-          onBlur={this.onBlur}
-          onKeyUp={this.onKeyUp}
-          onFocus={this.onFocus}
-          onChange={this.onChange} 
-          onClick={this.onClick}/>
-      </div>
+      <AutoComplete
+        onChange={this.handleChange}
+        placeholder="Busca el perfil de tu estado o municipio."
+        className="autocomplete__landing"
+        value={this.state.value}
+        renderSuggestion={this.renderSuggestion}
+        suggestions={this.props.suggestions}/>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { locationType, searchValue, suggestions } = state.exploracion;
-  return { locationType, searchValue, suggestions };
+  const { suggestions } = state.exploracion;
+  return { suggestions };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(actions, dispatch)
   };
+};
+
+SearchContainer.defaultProps = {
+  suggestions: []
+};
+
+SearchContainer.propTypes = {
+  suggestions: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchContainer));

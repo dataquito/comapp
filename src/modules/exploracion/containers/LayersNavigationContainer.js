@@ -38,13 +38,16 @@ class LayersNavigationContainer extends React.Component {
       const activeClass = activeTab === i ? 'layer__tab--active' : '';
       return (
         <div className={`layer__tab ${activeClass}`} key={i} data-tab={i} onClick={onClick}>
-          <h5>{v.key}</h5>
+          <span>{v.key}</span>
         </div>
       );
     });
     return (
       <div className="layers-navigation__container">
-        {navigation}
+        <span className="layers-navigation__title">Layers</span>
+        <div className="layers-navigation__options">
+          {navigation}
+        </div>
       </div>
     );
   }

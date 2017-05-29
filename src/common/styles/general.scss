@@ -1,19 +1,8 @@
 @import './exploracion.scss';
-/* Coolors Exported Palette - coolors.co/de0915-011627-133c55-253031-e8c547 */
-/* HSL */
-// $color1: hsla(357%, 92%, 45%, 1);
-// $color2: hsla(207%, 95%, 8%, 1);
-// $color3: hsla(203%, 63%, 20%, 1);
-// $color4: hsla(185%, 14%, 17%, 1);
-// $color5: hsla(47%, 78%, 59%, 1);
-/* RGB */
-$color1: rgba(222, 9, 21, 1);
-$color2: rgba(1, 22, 39, 1);
-$color3: rgba(19, 60, 85, 1);
-$color4: rgba(37, 48, 49, 1);
-$color5: rgba(232, 197, 71, 1);
-$color6: #e63946;
+@import './landing.scss';
+@import './variables.scss';
 html, body {
+  font-family: Consolas,monaco,monospace; 
   height: 100%;
 }
 body {
@@ -24,14 +13,15 @@ dl {
 }
 
 #comapp__container {}
+
 #navigation {
   height: 51px;
   width: 100%;
-  background: $color2;
-  // border-bottom: 1px solid #D5D5D5;
+  background: rgba(0,0,0,0);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 #navigation .logo {
-  height: 35px;
+  height: 50px;
   padding: 8px 15px;
 }
 
@@ -73,7 +63,7 @@ dl {
   height: 6.5rem;
   position: relative;
   padding: .5rem 1rem;
-  border-top: 1px solid $color6;
+  border-top: 1px solid #222;
   background: $color2;
 }
 .sidebar__item {
@@ -94,13 +84,11 @@ dl {
 // inputs
 .radio {
   transition: all 0.3s ease;
-  margin-bottom: 5px;
   label {
     cursor: pointer;
   }
   font-size: 12px;
-  border: 1px solid $color2;
-  background: $color2;
+  background: #e4e4e4;
   text-align: center;
 }
 .radio--active {
@@ -119,19 +107,19 @@ dl {
 .autocomplete {
   position: relative;
 }
-.autocomplete input[type="text"] {
-  background: $color2;
-  margin-bottom: 5px;
-  box-sizing: border-box;
-  color: #fff;
-  width: 100%;
-  padding: 10px 5px;
-  font-size: 12px;
-  border: solid 1px $color2;
-  outline: none;
-  transition: border 0.3s;
-}
-.autocomplete input[type="text"]:focus,
-.autocomplete input[type="text"].focus {
-  border: solid 1px #FF6B6B;
-}
+// .autocomplete input[type="text"] {
+//   background: $color2;
+//   margin-bottom: 5px;
+//   box-sizing: border-box;
+//   color: #fff;
+//   width: 100%;
+//   padding: 10px 5px;
+//   font-size: 12px;
+//   border: solid 1px $color2;
+//   outline: none;
+//   transition: border 0.3s;
+// }
+// .autocomplete input[type="text"]:focus,
+// .autocomplete input[type="text"].focus {
+//   border: solid 1px #FF6B6B;
+// }

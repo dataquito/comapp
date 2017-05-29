@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run open:src",
-    "open:src": "babel-node tools/asset_server.js"
+    "open:src": "babel-node tools/asset_server.js",
+    "build:prod": "webpack --env=prod --progress --profile --colors --config configuration/webpack/webpack.config.js"
   },
   "author": "Omar Eduardo Torres Chavez <omar@disciplinecode.com> (http://disciplinecode.com)",
   "license": "MIT",
@@ -38,6 +39,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "bootstrap": "^4.0.0-alpha.6",
     "d3-array": "^1.1.1",
     "d3-axis": "^1.0.6",
     "d3-collection": "^1.0.3",
@@ -58,6 +60,7 @@
     "lodash.isempty": "^4.4.0",
     "normalize.css": "^5.0.0",
     "open": "0.0.5",
+    "purecss": "^0.6.2",
     "qs": "^6.4.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

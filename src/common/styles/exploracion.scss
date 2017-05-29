@@ -1,27 +1,78 @@
-$color1: rgba(222, 9, 21, 1);
-$color2: rgba(1, 22, 39, 1);
-$color3: rgba(19, 60, 85, 1);
-$color4: rgba(37, 48, 49, 1);
-$color5: rgba(232, 197, 71, 1);
-$color6: #e63946;
-#exploracion__module {
+@import './variables.scss';
+#exploracion__module .dock {
+  z-index: 999;
+  height: 50px;
+  background: #f9f9f9;
+  width: 100%;
   display: flex;
-  flex-flow: row wrap;
-  height: calc(100vh - 52px);
-  .map {
-    flex: 1 1 0%;
-  }
-  .map .leaflet-container {
-    height: 100%;
-  }
-  .location-type__container,
-  .layers-navigation__container {
+  flex-direction: row;
+  border-bottom: 1px solid #c5c5c5;
+}
+.dock .autocomplete__input {
+  color: #676767;
+  width: 350px;
+  height: 100%;
+  background: #eaeaea;
+  font-size: 12px;
+  border: none;
+  box-sizing: border-box;
+  padding: 0 10px;
+  &:focus {
+    outline: none;
   }
 }
-
-
-.search__container, .location-type__container, .layers-navigation__container{
+#exploracion__module {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 52px);
+}
+#exploracion__module .map {
+  height: calc(100vh - 102px);
+  position: relative;
+}
+#exploracion__module .leaflet-container {
+  height: 100%;
+}
+.location-type__container {
+  max-width: 300px;
+  width: 300px;
+}
+.layers-navigation__container {
+  max-width: 680px;
+  min-width: 680px;
+}
+.location-type__container, .layers-navigation__container {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #d0d0d0;
+}
+.location-type__options, .layers-navigation__options {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.location-type__options .radio {
+  width: 50%;
+  margin: 0 10px;
+}
+.layers-navigation__options .layer__tab {
+  margin: 0 10px;
+  font-size: 12px;
+  text-align: center;
+  background: #e4e4e4;
+  line-height: 24px;
   width: 100%;
+}
+.location-type__title, .layers-navigation__title {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #6d6d6d;
 }
 .search__container {
   z-index: 5;
@@ -29,76 +80,29 @@ $color6: #e63946;
 .sidebar__search {
 }
 .layers {
-  color: #fff;
-  padding: .5rem 1rem;
+  color: #5f5f5f;
   box-sizing: border-box;
-  background-color: #133c55;
+  background-color: #f9f9f9;
   overflow-y: scroll;
   display: flex;
-  right: 0;
-  z-index: 999;
+  left: 0;
+  top: 102px;
+  width: 350px;
+  z-index: 888;
   position: absolute;
   flex-direction: column;
-  min-height: calc(100vh - 51px);
-  max-height: calc(100vh - 51px);
-  width: 280px;
-  border-right: 1px solid #011627;
+  height: calc(100% - 102px);
+  border-right: 1px solid #d0d0d0;
 }
 .explore__tab--active {
   display: block !important;
 }
 .explore__tab {
   display: none;
-  h5 {
-    margin: 0;
-    font-size: 12px;
-  }
-  .layer__option {
-    // float: left;
-  }
-  .layer__title {
-    font-weight: 300;
-    margin-bottom: 5px;
-  }
-  .layer__detail {
-    margin: 0 0 5px 0;
-  }
-  .layer__option label {
-    cursor: pointer;
-    font-size: 12px;
-    background: #011627;
-    padding: 2px 4px;
-    margin: 5px;
-  }
-  .layer__option.layer__option--active label{
-    background: $color6;
-  }
-  .layer__option input {
-    display: none;
-  }
-  .layer__options {
-    display: flex;
-  }
 }
-
-.layer__tab.layer__tab--active {
-  background: $color6;
+.explore__tabs {
+  padding: 15px;
 }
-.layer__tab {
-  background: $color2;
-  color: #fff;
-  padding: 5px;
-  margin-bottom: 5px;
-  &:hover {
-    cursor: pointer;
-  }
-  h5 {
-    margin: 0;
-    font-size: 12px;
-    font-weight: 300;
-  }
-}
-
 .search__results {
   position: absolute;
   width: 100%;
@@ -107,12 +111,15 @@ $color6: #e63946;
   border-bottom: 1px solid #e3e3e3;
   padding: 5px;
   background: #fff;
-  font-size: 10px;
+  font-size: 12px;
   display: block;
   cursor: pointer;
   &:hover {
-    background: #e9e9e9;
+    background: #f3f3f3;
   }
+}
+.search__result span {
+  margin-right: 5px;
 }
 .search__result--active {
   background: #f3f3f3;
@@ -124,5 +131,29 @@ $color6: #e63946;
   color: #ff4747;
   margin-right: 5px;
 }
-.search__container {
+
+.layer__title {
+  font-size: 13px;
+}
+.layer__options {
+  display: flex;
+}
+.layer__option {
+ padding: 0px 5px;
+ border-right: 1px solid #dedede;
+}
+.layer__detail {
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 5px;
+}
+.layer__option label {
+  font-size: 12px;
+}
+.layer__option input {
+  margin-left: 5px;
+  vertical-align: bottom;
+}
+div.layer__tab.layer__tab--active{
+  background: #e63946 ;
+  color: #fff;
 }

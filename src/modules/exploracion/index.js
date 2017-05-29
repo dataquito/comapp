@@ -32,7 +32,15 @@ class Exploracion extends React.Component {
     console.info('rendering all');
     return (
       <div id="exploracion__module">
-        <div className="sidebar">
+        <div className="dock">
+          <SearchContainer/>
+          <LocationTypeContainer/>
+          <LayersNavigationContainer/>
+        </div>
+        <div className="layers">
+          <LayersTabsContainer/>
+        </div>
+        {/*<div className="sidebar">
           <dl className="sidebar__list">
             <dt className="sidebar__item sidebar__search">
               <span>
@@ -53,10 +61,10 @@ class Exploracion extends React.Component {
             </dt>
             <dt className="sidebar__title"><span>Capas disponibles</span></dt>
           </dl>
-        </div>
-        <div className="layers">
+        </div>}*/}
+        {/*<div className="layers">
           <LayersTabsContainer/>
-        </div>
+        </div>*/}
         <div className="map">
           <MapContainer/>
         </div>

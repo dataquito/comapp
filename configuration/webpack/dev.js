@@ -24,8 +24,11 @@ module.exports = function(env) {
     module: {
       rules: [
         {
-          test: /\.(jpg|jpeg|png|svg)$/,
-          include: [path.join(root, "src/common")],
+          test: /\.(jpg|jpeg|png|svg|json)$/,
+          include: [
+            path.join(root, "src/common"),
+            path.join(root, "src/modules/landing/jsons"),
+          ],
           use: 'file-loader'
         },
         {
@@ -34,25 +37,31 @@ module.exports = function(env) {
             path.join(root, 'src'),
             path.join(root, 'node_modules')
           ],
-          use: [{
-            loader: 'style-loader'
-          }, {
-            loader: 'css-loader'
-          }, {
-            loader: 'resolve-url-loader'
-          }]
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'resolve-url-loader'
+            }
+          ]
         },
         {
           test: /\.scss$/,
-          use: [{
-            loader: 'style-loader'
-          }, {
-            loader: 'css-loader'
-          }, {
-            loader: 'resolve-url-loader'
-          }, {
-            loader: 'sass-loader'
-          }]
+          use: [
+            {
+              loader: 'style-loader'
+            }, 
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'resolve-url-loader'
+            }, 
+            {
+              loader: 'sass-loader'
+            }
+          ]
         },
         {
           test: /\.(js|jsx)$/,

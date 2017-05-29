@@ -24,9 +24,9 @@ class LayerDetail extends React.Component {
     const { title, options, selectedLayer, onChange } = this.props;
     return (
       <div className="layer__detail">
-        <h5 className="layer__title">{title}</h5>
+        <span className="layer__title">{title}</span>
         <div className="layer__options">
-          {options.map((o, i) => <LayerOption {...o} key={i} selectedLayer={selectedLayer} onChange={onChange}/>)}
+          {options.sort((a, b) => a.periodo - b.periodo).map((o, i) => <LayerOption {...o} key={i} selectedLayer={selectedLayer} onChange={onChange}/>)}
         </div>
       </div>
     );

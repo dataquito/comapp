@@ -4,7 +4,6 @@ const root = path.join(__dirname, '../../');
 module.exports = function () {
   return {
     entry: [
-      'webpack-hot-middleware/client?reload=true',
       path.resolve(path.join(root, 'src'), 'index.js')
     ],
     node: {

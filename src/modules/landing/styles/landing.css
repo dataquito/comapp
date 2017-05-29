@@ -1,0 +1,8 @@
+.section {
+  background: #222;
+}
+
+.main__banner {
+  display: flex;
+  flex-direction: row;
+}

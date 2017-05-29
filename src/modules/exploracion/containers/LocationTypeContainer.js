@@ -46,7 +46,10 @@ class LocationTypeContainer extends React.Component {
     });
     return (
       <div className="location-type__container">
-        {radios}
+        <span className="location-type__title">Location</span>
+        <div className="location-type__options">
+          {radios}
+        </div>
       </div>
     );
   }

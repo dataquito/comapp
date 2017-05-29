@@ -34,7 +34,6 @@ class MapContainer extends React.Component {
     const zoom = +query.zoom;
     console.log('rendering map');
     return (
-      <div style={{ height: '100%', flex: '1', position: 'relative' }}>
         <Map center={center} zoom={zoom} onMoveend={this.moveend} zoomControl={false}>
           <LayerContainer/>
           {/*<ScaleContainer/>
@@ -42,7 +41,6 @@ class MapContainer extends React.Component {
           <TileLayer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" 
             attribution={`&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors`}/>
         </Map>
-      </div>
     );
   }
 }
