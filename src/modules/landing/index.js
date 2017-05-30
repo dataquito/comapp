@@ -12,6 +12,7 @@ const urlJSON = require('./jsons/p.json');
 import styles from './styles/landing.css';
 import logoImg from 'app-images/comapp_grey.png';
 import ZoomableMap from 'app-scripts/d3/ZoomableMap';
+import SizingHOC from 'app-scripts/hocs/SizingHOC';
 class Landing extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -40,8 +41,8 @@ class Landing extends React.Component {
                   <div className="cover__text">
                     <h1>Streamline your workflow with Comapp</h1>
                     <p className="lead">Use high tech to propose innovative solutions to social issues such as poverty and inequality</p>
-                    <a class="btn btn--primary type--uppercase" href="index.html">
-                      <span class="btn__text">
+                    <a className="btn btn--primary type--uppercase" href="index.html">
+                      <span className="btn__text">
                         View The Demos
                       </span>
                     </a>
@@ -49,7 +50,7 @@ class Landing extends React.Component {
                 </div>
                 <div className="col-md-6 col-sm-12">
                   <ZoomableMap/>
-                  <img src="http://www.pngpix.com/wp-content/uploads/2016/08/PNGPIX-COM-Drone-PNG-Transparent-Image-1.png" style={{ width: '100%' }}/>
+                  {/*<img src="http://www.pngpix.com/wp-content/uploads/2016/08/PNGPIX-COM-Drone-PNG-Transparent-Image-1.png" style={{ width: '100%' }}/>*/}
                 </div>
               </div>
             </div>
