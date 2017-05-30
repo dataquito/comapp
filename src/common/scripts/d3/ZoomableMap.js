@@ -12,7 +12,10 @@ class ZoomableMap extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      data: []
+      data: [],
+      x: null,
+      y: null,
+      k: null
     };
   }
 
@@ -28,23 +31,35 @@ class ZoomableMap extends React.Component {
     if(this.state.data.length === 0) {
       return null;
     }
-
-
     const data = this.state.data;
-    console.log(data);
     const projection = geoMercator()
       .fitSize([400, 400], merge(data, data.objects.LatinAmerica.geometries));
     const path = geoPath()
       .projection(projection);
-
     const countries = feature(data, data.objects.LatinAmerica).features;
     const countriesPaths = countries.map((feature, index) => {
-      return <path className="land" key={index} d={path(feature)}/>;
+
+      const click = clicked.bind(feature); 
+      return <path className="land" key={index} d={path(feature)} onClick={clicked}/>;
     });
     const boundaries = mesh(data, data.objects.LatinAmerica, function(a, b) { return a !== b; });
     const boundariesPath = path(boundaries);
+    function clicked() {
+      console.log(this);
+      const centroid = path.centroid(this);
+      let x = centroid[0];
+      let y = centroid[1];
+      let k = 4;
+      console.log(x,y,k);
+    }
+    // function change(x,y,k) {
+    //   this.setState({
+    //     x, y, k
+    //   });
+    // }
     return (
       <svg id="zoomable__svg" width="400" height="400">
+        <rect className="overlay" width="400" height="400"/>
         <g id="zoomable">
           <g className="countries">
             {countriesPaths}
@@ -52,7 +67,6 @@ class ZoomableMap extends React.Component {
           <g className="mesh">
             <path className="boundary" d={boundariesPath}/>
           </g>
-          <rect className="overlay" width="400" height="400"/>
         </g>
       </svg>
     );
