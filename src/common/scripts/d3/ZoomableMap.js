@@ -7,15 +7,18 @@ import { mesh, merge, feature } from 'topojson';
 import SizingHOC from '../hocs/SizingHOC';
 import { findDOMNode } from 'react-dom';
 
+import Country from './Country';
+
 // @SizingHOC
 class ZoomableMap extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       data: [],
-      x: null,
-      y: null,
-      k: null
+      x: 0,
+      y: 0,
+      k: 1,
+      selected: null
     };
   }
 
@@ -27,40 +30,47 @@ class ZoomableMap extends React.Component {
     });
   }
 
+  handleCountryClick() {
+
+  }
+
   render() {
     if(this.state.data.length === 0) {
       return null;
     }
-    const data = this.state.data;
+    const { data, x, y, k } = this.state;
     const projection = geoMercator()
       .fitSize([400, 400], merge(data, data.objects.LatinAmerica.geometries));
     const path = geoPath()
       .projection(projection);
     const countries = feature(data, data.objects.LatinAmerica).features;
     const countriesPaths = countries.map((feature, index) => {
-
-      const click = clicked.bind(feature); 
-      return <path className="land" key={index} d={path(feature)} onClick={clicked}/>;
+      const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
+      const click = () => {
+        let x, y, k, selected;
+        if(selectedFeature) {
+          x = 400 / 2;
+          y = 400 / 2;
+          k = 1;
+          selected = null;
+        } else {
+          const centroid = path.centroid(feature);
+          x = centroid[0];
+          y = centroid[1];
+          k = 4;
+          selected = feature.properties.POP_CNTRY;
+        }
+        this.setState({ x, y, k, selected });
+      }; 
+      return <Country key={index} className="land" d={path(feature)} onClick={click} selected={selectedFeature}/>
     });
     const boundaries = mesh(data, data.objects.LatinAmerica, function(a, b) { return a !== b; });
     const boundariesPath = path(boundaries);
-    function clicked() {
-      console.log(this);
-      const centroid = path.centroid(this);
-      let x = centroid[0];
-      let y = centroid[1];
-      let k = 4;
-      console.log(x,y,k);
-    }
-    // function change(x,y,k) {
-    //   this.setState({
-    //     x, y, k
-    //   });
-    // }
     return (
       <svg id="zoomable__svg" width="400" height="400">
         <rect className="overlay" width="400" height="400"/>
-        <g id="zoomable">
+      <g id="zoomable"
+        transform={`translate(${400/2},${400/2})scale(${k})translate(-${x},-${y})`}>
           <g className="countries">
             {countriesPaths}
           </g>
