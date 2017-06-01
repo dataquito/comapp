@@ -9,7 +9,7 @@ import { findDOMNode } from 'react-dom';
 
 import Country from './Country';
 
-// @SizingHOC
+@SizingHOC
 class ZoomableMap extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -24,7 +24,6 @@ class ZoomableMap extends React.Component {
 
   componentDidMount() {
     const g = select('#zoomable');
-    console.log(findDOMNode(this));
     json('https://s3-us-west-2.amazonaws.com/sedesol-ui-assets/LatinAmericaMercator.json', (err, data) => {
       this.setState({ data });
     });
@@ -39,8 +38,9 @@ class ZoomableMap extends React.Component {
       return null;
     }
     const { data, x, y, k } = this.state;
+    const { width, height } = this.props;
     const projection = geoMercator()
-      .fitSize([400, 400], merge(data, data.objects.LatinAmerica.geometries));
+      .fitSize([width, height], merge(data, data.objects.LatinAmerica.geometries));
     const path = geoPath()
       .projection(projection);
     const countries = feature(data, data.objects.LatinAmerica).features;
@@ -49,8 +49,8 @@ class ZoomableMap extends React.Component {
       const click = () => {
         let x, y, k, selected;
         if(selectedFeature) {
-          x = 400 / 2;
-          y = 400 / 2;
+          x = width / 2;
+          y = height / 2;
           k = 1;
           selected = null;
         } else {
@@ -67,10 +67,10 @@ class ZoomableMap extends React.Component {
     const boundaries = mesh(data, data.objects.LatinAmerica, function(a, b) { return a !== b; });
     const boundariesPath = path(boundaries);
     return (
-      <svg id="zoomable__svg" width="400" height="400">
-        <rect className="overlay" width="400" height="400"/>
-      <g id="zoomable"
-        transform={`translate(${400/2},${400/2})scale(${k})translate(-${x},-${y})`}>
+      <svg id="zoomable__svg" width={width} height={height}>
+        <rect className="overlay" width={width} height={height}/>
+        <g id="zoomable"
+          transform={`translate(${width/2},${height/2})scale(${k})translate(-${x},-${y})`}>
           <g className="countries">
             {countriesPaths}
           </g>

@@ -32,9 +32,10 @@ class Landing extends React.Component {
             </div>
           </div>
         </nav>
-        <section className="cover">
+        <section id="cover-map" className="cover">
+          <ZoomableMap parentContainerID="cover-map"/>
           {/*<div className="cover__image"/>*/}
-          <div className="cover__elements">
+          {/*<div className="cover__elements">
             <div className="container">
               <div className="row">
                 <div className="col-md-5 col-sm-12">
@@ -50,11 +51,10 @@ class Landing extends React.Component {
                 </div>
                 <div className="col-md-6 col-sm-12">
                   <ZoomableMap/>
-                  {/*<img src="http://www.pngpix.com/wp-content/uploads/2016/08/PNGPIX-COM-Drone-PNG-Transparent-Image-1.png" style={{ width: '100%' }}/>*/}
                 </div>
               </div>
             </div>
-          </div>
+          </div>*/}
         </section>
         {/*<div className="m">
           <div className="container">

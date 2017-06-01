@@ -5,24 +5,25 @@ export default function SizingHOC(WrappedComponent) {
     constructor(props) {
       super(props)
       this.state = {
-        width: '',
-        height: ''
+        width: null,
+        height: null
       }
 
     }
 
     componentDidMount() {
-      console.log(tete);
-      // console.log(findDOMNode(this.node___));
-      // console.log(findDOMNode(this));
+      const node = document.getElementById(this.props.parentContainerID);
+      this.setState({
+        width: node.clientWidth / 2,
+        height: node.clientHeight
+      });
     }
 
     render() {
-      const newProps = {
-        width: this.state.width,
-        height: this.state.height
-      }
-      return <WrappedComponent {...this.props} {...newProps} ref={(input) => { this.node___ = input }} />
+      const { width, height } = this.state;
+      if(width === null || height === null) return null;
+      const newProps = { width, height };
+      return <WrappedComponent {...this.props} {...newProps}/>;
     }
   }
 }
