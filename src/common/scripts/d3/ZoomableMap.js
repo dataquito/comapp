@@ -13,64 +13,66 @@ import Country from './Country';
 class ZoomableMap extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.handleCountryClick = this.handleCountryClick.bind(this);
     this.state = {
       data: [],
       x: 0,
       y: 0,
       k: 1,
-      selected: null
+      selected: null,
+      projection: null
     };
   }
 
   componentDidMount() {
     const g = select('#zoomable');
-    console.log(findDOMNode(this));
     json('https://s3-us-west-2.amazonaws.com/sedesol-ui-assets/LatinAmericaMercator.json', (err, data) => {
-      this.setState({ data });
+      this.setState({ 
+        data,
+        projection: geoMercator().fitSize([400, 400], merge(data, data.objects.LatinAmerica.geometries))
+      });
     });
   }
 
-  handleCountryClick() {
-
+  handleCountryClick(feature) {
+    const { projection } = this.state;
+    const path = geoPath().projection(projection);
+    let x, y, k, selected;
+    const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
+    if(selectedFeature) {
+      x = 400 / 2;
+      y = 400 / 2;
+      k = 1;
+      selected = null;
+    } else {
+      const centroid = path.centroid(feature);
+      x = centroid[0];
+      y = centroid[1];
+      k = 4;
+      selected = feature.properties.POP_CNTRY;
+    }
+    this.setState({ x, y, k, selected });
   }
 
   render() {
     if(this.state.data.length === 0) {
       return null;
     }
-    const { data, x, y, k } = this.state;
-    const projection = geoMercator()
-      .fitSize([400, 400], merge(data, data.objects.LatinAmerica.geometries));
-    const path = geoPath()
-      .projection(projection);
+    const { data, x, y, k, projection } = this.state;
+    const path = geoPath().projection(projection);
     const countries = feature(data, data.objects.LatinAmerica).features;
     const countriesPaths = countries.map((feature, index) => {
       const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
-      const click = () => {
-        let x, y, k, selected;
-        if(selectedFeature) {
-          x = 400 / 2;
-          y = 400 / 2;
-          k = 1;
-          selected = null;
-        } else {
-          const centroid = path.centroid(feature);
-          x = centroid[0];
-          y = centroid[1];
-          k = 4;
-          selected = feature.properties.POP_CNTRY;
-        }
-        this.setState({ x, y, k, selected });
-      }; 
-      return <Country key={index} className="land" d={path(feature)} onClick={click} selected={selectedFeature}/>
+      const onClick = () => { this.handleCountryClick(feature) };
+      return <Country key={index} className="land" d={path(feature)} onClick={onClick} selected={selectedFeature}/>;
     });
     const boundaries = mesh(data, data.objects.LatinAmerica, function(a, b) { return a !== b; });
     const boundariesPath = path(boundaries);
     return (
       <svg id="zoomable__svg" width="400" height="400">
         <rect className="overlay" width="400" height="400"/>
-      <g id="zoomable"
-        transform={`translate(${400/2},${400/2})scale(${k})translate(-${x},-${y})`}>
+        <g id="zoomable"
+          transform={`translate(${400/2},${400/2})scale(${k})translate(-${x},-${y})`}>
           <g className="countries">
             {countriesPaths}
           </g>

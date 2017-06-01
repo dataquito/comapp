@@ -11,6 +11,14 @@ svg {
 
 .land {
   fill: #ff7d7d;
+  cursor: pointer;
+}
+.land:hover {
+  fill: #ff5050 !important;
+}
+
+.country--selected {
+  fill: #ff5050 !important;
 }
 
 .boundary {

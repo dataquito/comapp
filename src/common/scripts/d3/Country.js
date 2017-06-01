@@ -2,7 +2,9 @@ import React from 'react';
 
 class Country extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.POP_CNTRY !== this.props.POP_CNTRY;
+    const countryChange = nextProps.POP_CNTRY !== this.props.POP_CNTRY;
+    const classChanged = nextProps.selected !== this.props.selected;
+    return (countryChange || classChanged);
   }
 
   render() {
