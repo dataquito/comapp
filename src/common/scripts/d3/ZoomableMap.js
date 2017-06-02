@@ -9,7 +9,7 @@ import { findDOMNode } from 'react-dom';
 
 import Country from './Country';
 
-// @SizingHOC
+@SizingHOC
 class ZoomableMap extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -25,23 +25,24 @@ class ZoomableMap extends React.Component {
   }
 
   componentDidMount() {
-    const g = select('#zoomable');
+    const { width, height } = this.props;
     json('https://s3-us-west-2.amazonaws.com/sedesol-ui-assets/LatinAmericaMercator.json', (err, data) => {
       this.setState({ 
         data,
-        projection: geoMercator().fitSize([400, 400], merge(data, data.objects.LatinAmerica.geometries))
+        projection: geoMercator().fitSize([width, height], merge(data, data.objects.LatinAmerica.geometries))
       });
     });
   }
 
   handleCountryClick(feature) {
     const { projection } = this.state;
+    const { width, height } = this.props;
     const path = geoPath().projection(projection);
     let x, y, k, selected;
     const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
     if(selectedFeature) {
-      x = 400 / 2;
-      y = 400 / 2;
+      x = width / 2;
+      y = height / 2;
       k = 1;
       selected = null;
     } else {
@@ -59,22 +60,51 @@ class ZoomableMap extends React.Component {
       return null;
     }
     const { data, x, y, k, projection } = this.state;
+    const { width, height } = this.props;
     const path = geoPath().projection(projection);
     const countries = feature(data, data.objects.LatinAmerica).features;
     const countriesPaths = countries.map((feature, index) => {
       const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
-      const onClick = () => { this.handleCountryClick(feature) };
-      return <Country key={index} className="land" d={path(feature)} onClick={onClick} selected={selectedFeature}/>;
+      const emptyFeature = (feature.properties.POP_CNTRY % 2) === 0;
+      return <Country 
+        key={index}
+        className="country"
+        selectedClass="country--selected"
+        emptyClass="country--empty"
+        d={path(feature)}
+        selected={selectedFeature}
+        empty={emptyFeature}
+      />;
     });
-    const boundaries = mesh(data, data.objects.LatinAmerica, function(a, b) { return a !== b; });
+    const transform = point => {
+      return [
+        point[0] * data.transform.scale[0] + data.transform.translate[0],
+        point[1] * data.transform.scale[1] + data.transform.translate[1]
+      ];
+    };
+
+    const projections = geoMercator();
+    console.log(data);
+    const meshCircles = data.arcs.map((d, index) => {
+      console.log(projection(d[0]));
+      return <circle
+        r="2.5"
+        cx={projections(d)[0]}
+        cy={projections(d)[1]}
+      />;
+    });
+    const boundaries = mesh(data, data.objects.LatinAmerica, (a, b) => a !== b);
     const boundariesPath = path(boundaries);
     return (
-      <svg id="zoomable__svg" width="400" height="400">
-        <rect className="overlay" width="400" height="400"/>
+      <svg id="zoomable__svg" width={width} height={height}>
+        <rect className="overlay" width={width} height={height}/>
         <g id="zoomable"
-          transform={`translate(${400/2},${400/2})scale(${k})translate(-${x},-${y})`}>
+          transform={`translate(${0},${0})scale(${k})translate(-${x},-${y})`}>
           <g className="countries">
             {countriesPaths}
+          </g>
+          <g className="circles">
+            {meshCircles}
           </g>
           <g className="mesh">
             <path className="boundary" d={boundariesPath}/>

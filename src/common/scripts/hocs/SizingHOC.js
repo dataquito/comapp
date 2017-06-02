@@ -1,28 +1,37 @@
 import React from 'react';
-import * as tete from 'react-dom';
 export default function SizingHOC(WrappedComponent) {
   return class Sizing extends React.Component {
     constructor(props) {
-      super(props)
+      super(props);
       this.state = {
-        width: '',
-        height: ''
-      }
+        width: null,
+        height: null
+      };
+      this.resize = this.resize.bind(this);
+      window.addEventListener('resize', this.resize); 
+    }
 
+    resize() {
+      const node = document.getElementById(this.props.parentContainerID);
+      this.setState({
+        width: node.clientWidth,
+        height: node.clientHeight
+      });
     }
 
     componentDidMount() {
-      console.log(tete);
-      // console.log(findDOMNode(this.node___));
-      // console.log(findDOMNode(this));
+      const node = document.getElementById(this.props.parentContainerID);
+      this.setState({
+        width: node.clientWidth,
+        height: node.clientHeight
+      });
     }
 
     render() {
-      const newProps = {
-        width: this.state.width,
-        height: this.state.height
-      }
-      return <WrappedComponent {...this.props} {...newProps} ref={(input) => { this.node___ = input }} />
+      const { width, height } = this.state;
+      if(width === null || height === null) return null;
+      const newProps = { width, height };
+      return <WrappedComponent {...this.props} {...newProps}/>;
     }
-  }
+  };
 }

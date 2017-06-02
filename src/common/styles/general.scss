@@ -1,125 +1,80 @@
-@import './exploracion.scss';
-@import './landing.scss';
 @import './variables.scss';
+@import url('https://fonts.googleapis.com/css?family=Droid+Serif');
 html, body {
-  font-family: Consolas,monaco,monospace; 
+  font-family: 'Droid Serif', serif;
+}
+
+// Overrides
+.nav {
+  background: rgba(0,0,0,0);
+}
+a.nav-item {
+  color: #ffffff;
+  font-size: 12px;
+}
+.nav-item img {
+  max-height: 1.2rem;
+}
+
+
+
+
+#landing__cover {
+  height: calc(100vh - 52px);
+}
+
+#landing__cover .columns {
   height: 100%;
 }
-body {
-  margin: 0;
-}
-dl {
-  margin: 0;
-}
 
-#comapp__container {}
-
-#navigation {
-  height: 51px;
+#cover__image {
+  position: absolute;
+  height: calc(100vh);
   width: 100%;
-  background: rgba(0,0,0,0);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-#navigation .logo {
-  height: 50px;
-  padding: 8px 15px;
+  background: #EE6C4D;
+  // background: url('http://dronelife.com/wp-content/uploads/2014/09/3036266-poster-p-1-faa-to-filmmakers-fly-your-drones.jpg') no-repeat center center fixed;
+  // background: url('http://www.eyeondrones.com/wp-content/uploads/drone-wallpaper-minimal-light-1680x1050.jpg') no-repeat center center fixed;
+  // background-size: cover;
 }
 
-.sidebar {
-  background-color: $color3;
+.landing__text {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 51px);
-  width: 280px;
-  border-right: 1px solid $color2;
-}
-.sidebar__list {
-  height: calc(100vh - 6.5rem );
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  font-size: 1.4rem;
-  width: 100%;
-}
-.sidebar__title {
-  position: relative;
-  color: #c2c2c2;
-  font-size: 12px;
-  margin: .5rem 1rem;
-  text-transform: uppercase;
-  &:before {
-    content: '';
-    position: absolute;
-    background-color: #e63946;
-    height: 1px;
-    bottom: 0;
-    left: 0rem;
-    right: 0rem;
-  }
-}
-.sidebar__anchor {
-  color: $color3;
-  flex: 0 0 auto;
-  height: 6.5rem;
-  position: relative;
-  padding: .5rem 1rem;
-  border-top: 1px solid #222;
-  background: $color2;
-}
-.sidebar__item {
-  color: #cbc8d0;
-  margin: 0;
-  padding: 0;
-  position: relative;
+  justify-content: center;
 }
 
-.sidebar__item > span {
-  padding: .5rem 1rem;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
+circle {
+  fill: #ffffff;
+  stroke: none;
 }
 
-// inputs
-.radio {
-  transition: all 0.3s ease;
-  label {
-    cursor: pointer;
-  }
-  font-size: 12px;
-  background: #e4e4e4;
-  text-align: center;
-}
-.radio--active {
-  background: #E63946;
-  border: 1px solid #E63946 !important;
-  color: #fff;
-  border: none;
-}
-.radio__name {
-  padding: 5px;
-}
-.radio__input {
-  display: none;
+rect.overlay {
+  fill: none;
 }
 
-.autocomplete {
-  position: relative;
+path.country {
+  transition: all 0.5s ease-in-out;
+  fill: #ffffff;
+  stroke: none;
 }
-// .autocomplete input[type="text"] {
-//   background: $color2;
-//   margin-bottom: 5px;
-//   box-sizing: border-box;
-//   color: #fff;
-//   width: 100%;
-//   padding: 10px 5px;
-//   font-size: 12px;
-//   border: solid 1px $color2;
-//   outline: none;
-//   transition: border 0.3s;
-// }
-// .autocomplete input[type="text"]:focus,
-// .autocomplete input[type="text"].focus {
-//   border: solid 1px #FF6B6B;
-// }
+
+path.country:hover {
+  cursor: pointer;
+  fill: #F9DC5C;
+}
+
+path.country--empty {
+  fill: #EE6C4D;
+  stroke: white;
+  stroke-width: 1;
+}
+
+path.boundary {
+  fill: none;
+  stroke: #EE6C4D;
+  stroke-width: 1;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}

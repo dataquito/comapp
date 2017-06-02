@@ -6,8 +6,7 @@ import configureStore from 'app-redux/store.js';
 import Exploracion from 'app-modules/exploracion';
 import Landing from 'app-modules/landing';
 
-import normalize from '../node_modules/normalize.css/normalize.css';
-import pure from '../node_modules/bootstrap/scss/bootstrap-grid.scss';
+import bulma from '../node_modules/bulma/css/bulma.css';
 import appStyles from 'app-styles/general.scss';
 import mapStyles from 'app-styles/leaflet.scss';
 
