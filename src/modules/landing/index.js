@@ -14,6 +14,7 @@ import logoImg from 'app-images/comapp_grey.png';
 import ZoomableMap from 'app-scripts/d3/ZoomableMap';
 import SizingHOC from 'app-scripts/hocs/SizingHOC';
 import Navigation from 'app-scripts/core/Navigation';
+import Footer from 'app-scripts/core/Footer';
 import Card from 'app-scripts/core/Card';
 
 import vuelo from 'app-images/Selection_013.png';
@@ -173,21 +174,7 @@ class Landing extends React.Component {
             </div>
           </div>
         </section>
-        <footer className="footer">
-          <div className="container">
-            <div className="content has-text-centered">
-              <p><strong>Comapp</strong> es desarrollado por <a href="http://jgthms.com">El Observatorio de Vivienda</a> en conjunto con <a href="http://jgthms.com">Dataquito</a>.</p>
-              <p>
-                <p>
-The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC ANS 4.0</a>.
-                </p>
-                <a className="icon" href="https://github.com/jgthms/bulma">
-                  <i className="fa fa-github"></i>
-                </a>
-              </p>
-            </div>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     );
   }
