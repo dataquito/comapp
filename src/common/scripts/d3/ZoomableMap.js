@@ -82,17 +82,6 @@ class ZoomableMap extends React.Component {
         point[1] * data.transform.scale[1] + data.transform.translate[1]
       ];
     };
-
-    const projections = geoMercator();
-    console.log(data);
-    const meshCircles = data.arcs.map((d, index) => {
-      console.log(projection(d[0]));
-      return <circle
-        r="2.5"
-        cx={projections(d)[0]}
-        cy={projections(d)[1]}
-      />;
-    });
     const boundaries = mesh(data, data.objects.LatinAmerica, (a, b) => a !== b);
     const boundariesPath = path(boundaries);
     return (
@@ -104,7 +93,6 @@ class ZoomableMap extends React.Component {
             {countriesPaths}
           </g>
           <g className="circles">
-            {meshCircles}
           </g>
           <g className="mesh">
             <path className="boundary" d={boundariesPath}/>
