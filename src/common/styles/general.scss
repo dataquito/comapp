@@ -1,47 +1,158 @@
 @import './variables.scss';
-@import url('https://fonts.googleapis.com/css?family=Droid+Serif');
+// @import url('https://fonts.googleapis.com/css?family=Droid+Serif');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 html, body {
-  font-family: 'Droid Serif', serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 // Overrides
+.columns {
+  margin-top: 0;
+}
 .nav {
   background: rgba(0,0,0,0);
 }
 a.nav-item {
-  color: #ffffff;
   font-size: 12px;
 }
 .nav-item img {
   max-height: 1.2rem;
 }
 
-
-
-
-#landing__cover {
-  height: calc(100vh - 52px);
+.is-center--vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-#landing__cover .columns {
+#landing__module iframe {
+  border-radius: 5px;
+}
+
+#landing__module section.hero {
+  background: none;
+}
+
+#landing__cover {
+  position: relative;
+}
+#landing__module section.landing__section {
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+}
+
+#landing__cover .container {
+  height: 100%;
+  display: flex;
+}
+
+.container--about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.is-full-height {
   height: 100%;
 }
 
-#cover__image {
+section.colored {
+  background: #ee6e50;
+}
+section.colored .title{
+  color: #fff;
+}
+section.colored .subtitle{
+  color: #fff;
+}
+section.colored .tile > .title {
+  color: #4a4a4a;
+}
+section.colored .tile > .subtitle{
+  color: #4a4a4a;
+}
+section.colored article.tile {
+  background: #fff;
+}
+
+.landing__how img {
+  width: 100%;
+}
+
+.landing__text .button {
+  text-transform: uppercase;
+  width: 220px;
+  background: #ee6c4d;
+  color: #fff;
+  border: 0;
+  font-size: 14px;
+}
+
+#landing__about, #landing__how {
+  position: relative;
+}
+
+.landing__requirements {
+  font-weight: bold;
+}
+
+.cover__image {
   position: absolute;
   height: calc(100vh);
   width: 100%;
-  background: #EE6C4D;
-  // background: url('http://dronelife.com/wp-content/uploads/2014/09/3036266-poster-p-1-faa-to-filmmakers-fly-your-drones.jpg') no-repeat center center fixed;
-  // background: url('http://www.eyeondrones.com/wp-content/uploads/drone-wallpaper-minimal-light-1680x1050.jpg') no-repeat center center fixed;
-  // background-size: cover;
+  background: #fff;
+  background-size: cover;
 }
+.cover__image--about {
+  background: url(http://www.carnabysales.com/wp-content/themes/carnabyfilms/images/slider/dotted_worldmap.png) no-repeat center center fixed;
+  opacity: 0.03;
+}
+.cover__image--how{
+  background: url(http://www.carnabysales.com/wp-content/themes/carnabyfilms/images/slider/dotted_worldmap.png) no-repeat center center fixed;
+  opacity: 0.03;
+}
+.cover__image--main {
+  opacity: 0.03;
+  background: url('http://www.carnabysales.com/wp-content/themes/carnabyfilms/images/slider/dotted_worldmap.png') no-repeat center center fixed;
+}
+.cover__image--questions {
+  opacity: 0.03;
+  background: url('http://www.carnabysales.com/wp-content/themes/carnabyfilms/images/slider/dotted_worldmap.png') no-repeat center center fixed;
+}
+
 
 .landing__text {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #f8f8f8;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  img {
+    width: 130px;
+    padding: 25px 0;
+  }
+  h3 {
+    text-align: center;
+    min-height: 50px;
+  }
+  p {
+    text-align: center;
+  }
+  div {
+    // flex-grow: 1;
+  }
 }
 
 circle {
@@ -55,24 +166,25 @@ rect.overlay {
 
 path.country {
   transition: all 0.5s ease-in-out;
-  fill: #ffffff;
-  stroke: none;
+  fill: #ee6c4d;
+  stroke: white;
+  stroke-width: 2px;
 }
 
 path.country:hover {
   cursor: pointer;
-  fill: #F9DC5C;
+  fill: #f1927b;
 }
 
 path.country--empty {
-  fill: #EE6C4D;
-  stroke: white;
+  fill: #ffffff;
+  stroke: #ee6c4d;
   stroke-width: 1;
 }
 
 path.boundary {
   fill: none;
-  stroke: #EE6C4D;
+  stroke: #ee6c4d;
   stroke-width: 1;
   stroke-linejoin: round;
   stroke-linecap: round;
