@@ -1,6 +1,5 @@
 import React from 'react';
 import { geoMercator, geoAlbersUsa, geoPath } from 'd3-geo';
-import { zoom as zoomBehaviour } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { json } from 'd3-request';
 import { mesh, merge, feature } from 'topojson';
@@ -9,7 +8,7 @@ import { findDOMNode } from 'react-dom';
 
 import Country from './Country';
 
-@SizingHOC
+// @SizingHOC
 class ZoomableMap extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -35,24 +34,25 @@ class ZoomableMap extends React.Component {
   }
 
   handleCountryClick(feature) {
-    const { projection } = this.state;
-    const { width, height } = this.props;
-    const path = geoPath().projection(projection);
-    let x, y, k, selected;
-    const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
-    if(selectedFeature) {
-      x = width / 2;
-      y = height / 2;
-      k = 1;
-      selected = null;
-    } else {
-      const centroid = path.centroid(feature);
-      x = centroid[0];
-      y = centroid[1];
-      k = 4;
-      selected = feature.properties.POP_CNTRY;
-    }
-    this.setState({ x, y, k, selected });
+
+    // const { projection } = this.state;
+    // const { width, height } = this.props;
+    // const path = geoPath().projection(projection);
+    // let x, y, k, selected;
+    // const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
+    // if(selectedFeature) {
+    //   x = width / 2;
+    //   y = height / 2;
+    //   k = 1;
+    //   selected = null;
+    // } else {
+    //   const centroid = path.centroid(feature);
+    //   x = centroid[0];
+    //   y = centroid[1];
+    //   k = 4;
+    //   selected = feature.properties.POP_CNTRY;
+    // }
+    // this.setState({ x, y, k, selected });
   }
 
   render() {
@@ -61,12 +61,17 @@ class ZoomableMap extends React.Component {
     }
     const { data, x, y, k, projection } = this.state;
     const { width, height } = this.props;
+    console.log(width, height);
     const path = geoPath().projection(projection);
     const countries = feature(data, data.objects.LatinAmerica).features;
     const countriesPaths = countries.map((feature, index) => {
       const selectedFeature = feature.properties.POP_CNTRY === this.state.selected;
       const emptyFeature = (feature.properties.POP_CNTRY % 2) === 0;
+      const click = () => {
+        this.handleCountryClick(feature)
+      };
       return <Country 
+        onClick={click}
         key={index}
         className="country"
         selectedClass="country--selected"
@@ -102,4 +107,4 @@ class ZoomableMap extends React.Component {
     );
   }
 }
-export default ZoomableMap;
+export default SizingHOC(ZoomableMap);

@@ -21,6 +21,7 @@ export default function SizingHOC(WrappedComponent) {
 
     componentDidMount() {
       const node = document.getElementById(this.props.parentContainerID);
+      console.log(this.props.parentContainerID, node.clientWidth, node.clientHeight);
       this.setState({
         width: node.clientWidth,
         height: node.clientHeight
