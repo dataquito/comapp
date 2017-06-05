@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from 'app-images/comapp_grey.png';
 
-const Navigation = ({ style }) => {
+const Navigation = ({ style, className }) => {
   return (
-    <div style={style}>
+    <div style={style} className={className}>
       <nav className="nav container">
         <div className="nav-left">
           <Link className="nav-item"  to="/">
