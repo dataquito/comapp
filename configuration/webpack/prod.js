@@ -23,6 +23,7 @@ module.exports = function(env) {
             path.join(rootPath, "src"),
             path.join(rootPath, "node_modules/react-spinkit"),
             path.join(rootPath, "node_modules/normalize.css"),
+            path.join(rootPath, "node_modules/bulma"),
           ],
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
