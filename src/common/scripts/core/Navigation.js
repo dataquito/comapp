@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from 'app-images/comapp_grey.png';
 
 const Navigation = ({ style }) => {
@@ -6,9 +7,9 @@ const Navigation = ({ style }) => {
     <div style={style}>
       <nav className="nav container">
         <div className="nav-left">
-          <a className="nav-item">
+          <Link className="nav-item"  to="/">
             <img src={logo} alt="Bulma logo"/>
-          </a>
+          </Link>
         </div>
         <div className="nav-center">
           <a className="nav-item" href="https://github.com/dataquito/comapp">
@@ -34,7 +35,7 @@ const Navigation = ({ style }) => {
           <a className="nav-item">
             Documentation
           </a>
-          <a className="nav-item" href="Observatoriodevivienda.org">
+          <a className="nav-item" href="http://Observatoriodevivienda.org">
             Observatorio
           </a>
         </div>
