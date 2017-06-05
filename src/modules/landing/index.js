@@ -7,6 +7,7 @@ import Cover from './scripts/sections/Cover';
 import About from './scripts/sections/About';
 import How from './scripts/sections/How';
 import Questions from './scripts/sections/Questions';
+import Allies from './scripts/sections/Allies';
 
 
 class Landing extends React.Component {
@@ -17,11 +18,12 @@ class Landing extends React.Component {
   render() {
     return (
       <div id="landing__module">
-        <Navigation style={{ position: 'absolute', width: '100%', top: 0, zIndex: 4 }}/>
+        <Navigation className="landing__navigation"/>
         <Cover/>
         <About/>
         <How/>
         <Questions/>
+        <Allies/>
         <Footer/>
       </div>
     );

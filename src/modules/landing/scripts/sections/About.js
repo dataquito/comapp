@@ -13,7 +13,9 @@ const About = () => {
             <h2 className="subtitle">Co-mapp cuenta con una metodología de mapeo de riesgos, una App móvil que permite una rápida recolección y análisis de datos y una plataforma WEB que recopila información comparable de todo el continente y agiliza la creación de perfiles de riesgo.</h2>
           </div>
           <div className="column is-half">
-            <img src="http://www.iptimize.com/wp-content/uploads/2015/05/viedo.png"/>
+            <div className='embed-container'>
+              <iframe src='https://www.youtube.com/embed//M5RvGv6jxDo' frameBorder='0' allowFullScreen/>
+            </div>
           </div>
         </div>
       </div>
