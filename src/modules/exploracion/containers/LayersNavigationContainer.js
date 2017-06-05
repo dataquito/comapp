@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import qs from 'qs';
+import { withRouter, browserHistory } from 'react-router';
 import { nest } from 'd3-collection';
 import { ascending } from 'd3-array';
 
@@ -10,22 +12,25 @@ class LayersNavigationContainer extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.onClick = this.onClick.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const loca
-  // }
-
-  onClick(e) {
-    const tab = +e.currentTarget.dataset.tab;
-    const realTab = tab === this.props.activeTab ? -1 : tab;
-    this.props.actions.setActiveTab(realTab);
+  handleTabChange(e) {
+    const value = e.target.value;
+    // if(this.props.selectedLayer === value) return;
+    const history = this.props.history;
+    const query = qs.parse(this.props.location.search.substr(1));
+    const mergeQuery = { ...query, tabId: value };
+    history.replace({ 
+      pathname: '/exploracion', 
+      search: `?${qs.stringify(mergeQuery)}`
+    });
   }
 
   render() {
     // console.log('rendering LayersNavigationContainer');
-    const layers = this.props.layers;
+    const { layers, tabId } = this.props;
+    // const layers = this.props.layers;
     const nested = nest()
       .key(d => d.fuente)
       .sortKeys(ascending)
@@ -33,20 +38,29 @@ class LayersNavigationContainer extends React.Component {
       .sortKeys(ascending)
       .entries(layers);
     const onClick = this.onClick;
-    const activeTab = this.props.activeTab;
+    // const activeTab = this.props.activeTab;
     const navigation = nested.map((v, i) => {
-      const activeClass = activeTab === i ? 'layer__tab--active' : '';
+      const activeClass = tabId == i ? 'is-active' : '';
       return (
-        <div className={`layer__tab ${activeClass}`} key={i} data-tab={i} onClick={onClick}>
-          <span>{v.key}</span>
-        </div>
+        <li key={`${i}-${v.key}`} className={activeClass}>
+          <label>
+            <input 
+              style={{ display: 'none' }}
+              type="radio"
+              onChange={this.handleTabChange}
+              name={'master__tab'} 
+              value={i}/>
+            {v.key}
+          </label>
+        </li>
       );
     });
     return (
       <div className="layers-navigation__container">
-        <span className="layers-navigation__title">Layers</span>
-        <div className="layers-navigation__options">
-          {navigation}
+        <div className="tabs is-small">
+          <ul>
+            {navigation}
+          </ul>
         </div>
       </div>
     );
@@ -54,8 +68,10 @@ class LayersNavigationContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { layers, activeTab } = state.exploracion;
-  return { layers, activeTab };
+  const query = qs.parse(ownProps.location.search.substr(1));
+  const { tabId } = query;
+  const { layers } = state.exploracion;
+  return { layers, tabId };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -64,4 +80,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayersNavigationContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LayersNavigationContainer));

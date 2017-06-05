@@ -30,22 +30,18 @@ class LayersTabsContainer extends React.Component {
   }
 
   render() {
-    const { layers, activeTab, selectedLayer } = this.props;
+    const { layers, activeTab, selectedLayer, tabId } = this.props;
     const nested = nest()
       .key(d => d.fuente)
       .sortKeys(ascending)
       .key(d => d.nombre)
       .sortKeys(ascending)
       .entries(layers);
-
-    const onChange = this.onChange;
-    const tabs = nested.map((v, i) => {
-      const activeClass = (activeTab === +i) ? 'explore__tab--active' : '';
-      return <LayerList key={i} data={v} className={activeClass} selectedLayer={selectedLayer} onChange={onChange}/>;
-    });
+    const currentLayer = nested[tabId];
+    if(typeof currentLayer === 'undefined') return null;
     return (
       <div className="explore__tabs">
-        {tabs}
+        <LayerList data={currentLayer} activeLayer={selectedLayer} onChange={this.onChange}/>
       </div>
     );
   }
@@ -53,9 +49,9 @@ class LayersTabsContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const query = qs.parse(ownProps.location.search.substr(1));
-  const { layerId } = query;
-  const { layers, activeTab } = state.exploracion;
-  return { layers, activeTab, selectedLayer: layerId };
+  const { layerId, tabId } = query;
+  const { layers } = state.exploracion;
+  return { layers, selectedLayer: layerId, tabId };
 };
 
 const mapDispatchToProps = dispatch => {

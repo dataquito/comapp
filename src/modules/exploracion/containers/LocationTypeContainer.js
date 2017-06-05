@@ -36,18 +36,21 @@ class LocationTypeContainer extends React.Component {
       { title: 'Estatal', value: 1 },
       { title: 'Municipal', value: 2 }
     ].map((v, i) => {
-      return <Radio key={i} 
-        title={v.title} 
-        value={v.value} 
-        selected={selected === v.value} 
-        onChange={this.onChange}
-        customClass={''}
-        name="locationType"/>;
+      return (
+        <div key={v.title} className="column is-6">
+          <Radio key={i} 
+            title={v.title} 
+            value={v.value} 
+            selected={selected === v.value} 
+            onChange={this.onChange}
+            customClass={''}
+            name="locationType"/>
+        </div>
+      );
     });
     return (
       <div className="location-type__container">
-        <span className="location-type__title">Location</span>
-        <div className="location-type__options">
+        <div className="location-type__options columns">
           {radios}
         </div>
       </div>
