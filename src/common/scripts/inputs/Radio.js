@@ -3,19 +3,20 @@ import React, { PropTypes } from 'react';
 const Radio = ({ title, customClass, groupName, selected, onChange, value }) => {
   const activeClass = selected ? 'radio--active' : '';
   return (
-    <div className={`radio ${activeClass} ${customClass}`}>
-      <label>
-        <div className="radio__name">
-          <span>{title}</span>
-        </div>
-        <div className="radio__input">
-          <input checked={selected}
-            type="radio" 
+    <div className="field">
+      <p className="control">
+        <label className={`radio button is-small ${activeClass}`}>
+          <input 
+            style={{ display: 'none' }}
+            type="radio"
+            checked={selected}
             onChange={onChange}
             name={groupName} 
-            value={value}/>
-        </div>
-      </label>
+            value={value}
+          />
+          {title}
+        </label>
+      </p>
     </div>
   );
 };
